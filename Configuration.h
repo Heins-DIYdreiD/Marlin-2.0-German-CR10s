@@ -192,6 +192,7 @@
 
 // Dual Extruder die einen Stepper Motor verwenden.
 //#define SWITCHING_EXTRUDER
+
 #if ENABLED(SWITCHING_EXTRUDER)
   #define SWITCHING_EXTRUDER_SERVO_NR 0
   #define SWITCHING_EXTRUDER_SERVO_ANGLES { 0, 90 } // Angles for E0, E1[, E2, E3]
@@ -204,10 +205,11 @@
 // Die Ruhende (aber heiße) Nozzle wird angehoben um die Duckoberfläche nicht zu beschädigen. 
 // Möglichweise mit Nozzlespitzenabdeckung gegen Filamentautritt (Ooze Cover)
 //#define SWITCHING_NOZZLE
+
 #if ENABLED(SWITCHING_NOZZLE) // Doppelnozzle
   #define SWITCHING_NOZZLE_SERVO_NR 0
-  //#define SWITCHING_NOZZLE_E1_SERVO_NR 1          // If two servos are used, the index of the second
-  #define SWITCHING_NOZZLE_SERVO_ANGLES { 0, 90 }   // Angles for E0, E1 (single servo) or lowered/raised (dual servo)
+  //#define SWITCHING_NOZZLE_E1_SERVO_NR 1          // Wenn zwei Servos verwendet werden, wird der Index des zweiten verwendet.
+  #define SWITCHING_NOZZLE_SERVO_ANGLES { 0, 90 }   // Winkel für E0, E1 (Einzelservo) oder gesenkt/gehoben (Doppelservo)
 #endif
 
 /**  Zwei separate X-Wagen mit Solenoidem Andockmechanismus
@@ -228,16 +230,16 @@
 
 #if EITHER(PARKING_EXTRUDER, MAGNETIC_PARKING_EXTRUDER)
 
-  #define PARKING_EXTRUDER_PARKING_X { -78, 184 }     // X positions for parking the extruders
-  #define PARKING_EXTRUDER_GRAB_DISTANCE 1            // (mm) Distance to move beyond the parking point to grab the extruder
-  //#define MANUAL_SOLENOID_CONTROL                   // Manual control of docking solenoids with M380 S / M381
+  #define PARKING_EXTRUDER_PARKING_X { -78, 184 }     // X-Positionen für die Parkposition der Extruder
+  #define PARKING_EXTRUDER_GRAB_DISTANCE 1            // (mm) Abstand zum Überfahren des Parkpunkts, um den Extruder zu greifen
+  //#define MANUAL_SOLENOID_CONTROL                   // Manuelle Steuerung von Solenoidem Andockmechanismus mit M380 S / M381
 
   #if ENABLED(PARKING_EXTRUDER)
 
-    #define PARKING_EXTRUDER_SOLENOIDS_INVERT           // If enabled, the solenoid is NOT magnetized with applied voltage
-    #define PARKING_EXTRUDER_SOLENOIDS_PINS_ACTIVE LOW  // LOW or HIGH pin signal energizes the coil
-    #define PARKING_EXTRUDER_SOLENOIDS_DELAY 250        // (ms) Delay for magnetic field. No delay if 0 or not defined.
-    //#define MANUAL_SOLENOID_CONTROL                   // Manual control of docking solenoids with M380 S / M381
+    #define PARKING_EXTRUDER_SOLENOIDS_INVERT           // Wenn die Invertierung aktiviert, wird der Magnet bei angelegter Spannung NICHT magnetisiert
+    #define PARKING_EXTRUDER_SOLENOIDS_PINS_ACTIVE LOW  // LOW- oder HIGH-Pin-Signal Schaltet die Spule
+    #define PARKING_EXTRUDER_SOLENOIDS_DELAY 250        // (ms) Verzögerung für Magnetfeld. Keine Verzögerung, wenn Wert 0 oder nicht definiert.
+    //#define MANUAL_SOLENOID_CONTROL                   // Manuelle Steuerung von Solenoidem Andockmechanismus mit M380 S / M381
 
   #elif ENABLED(MAGNETIC_PARKING_EXTRUDER)
 
@@ -483,17 +485,16 @@
 //===========================================================================
 //============================= PID Settings ================================
 //===========================================================================
-// PID Tuning Guide here: https://reprap.org/wiki/PID_Tuning
+// PID (proportional-integral-derivativen Regelalgorithmus) Tuning Guide here: https://reprap.org/wiki/PID_Tuning
 
-// Comment the following line to disable PID and enable bang-bang.
-#define PIDTEMP
-#define BANG_MAX 255     // Limits current to nozzle while in bang-bang mode; 255=full current
-#define PID_MAX BANG_MAX // Limits current to nozzle while PID is active (see PID_FUNCTIONAL_RANGE below); 255=full current
-#define PID_K1 0.95      // Smoothing factor within any PID loop
+#define PIDTEMP          // Kommentieren Sie die Zeile aus, um PID zu deaktivieren und Bang-Bang zu aktivieren.
+#define BANG_MAX 255     // Stromstärkenbegrenzer der Nozzle bei aktiviertem bang-bang Modus; 255=volle Leistung
+#define PID_MAX BANG_MAX // Stromstärkenbegrenzer der Nozzle bei aktiviertem (see PID_FUNCTIONAL_RANGE below); 255=volle Leistung
+#define PID_K1 0.95      // Glättungsfaktor innerhalb einer beliebigen PID-Schleife
 
 #if ENABLED(PIDTEMP)
   //#define PID_EDIT_MENU         // Add PID editing to the "Advanced Settings" menu. (~700 bytes of PROGMEM)
-  #define PID_AUTOTUNE_MENU     // Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of PROGMEM)
+  #define PID_AUTOTUNE_MENU       // Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of PROGMEM)
   //#define PID_PARAMS_PER_HOTEND // Uses separate PID parameters for each extruder (useful for mismatched extruders)
                                   // Set/get with gcode: M301 E[extruder number, 0-2]
 
@@ -517,15 +518,15 @@
 /**
  * PID Bed Heating
  *
- * If this option is enabled set PID constants below.
- * If this option is disabled, bang-bang will be used and BED_LIMIT_SWITCHING will enable hysteresis.
+ * Wenn diese Option aktiviert ist, stellen Sie die folgenden PID-Konstanten ein.
+ * Wenn diese Option deaktiviert ist, wird "Bang-Bang" verwendet und "BED_LIMIT_SWITCHING" aktiviert die Hysterese.
  *
- * The PID frequency will be the same as the extruder PWM.
- * If PID_dT is the default, and correct for the hardware/configuration, that means 7.689Hz,
- * which is fine for driving a square wave into a resistive load and does not significantly
- * impact FET heating. This also works fine on a Fotek SSR-10DA Solid State Relay into a 250W
- * heater. If your configuration is significantly different than this and you don't understand
- * the issues involved, don't use bed PID until someone else verifies that your hardware works.
+ * Die PID-Frequenz wird die gleiche sein wie die Extruder-PWM.
+ * Wenn PID_dT die Voreinstellung ist und für die Hardware/Konfiguration korrekt ist, bedeutet das 7,689 Hz,
+ * Das ist gut, um eine Rechteckwelle in eine ohmsche Last zu treiben und hat keinen signifikanten
+ * die FET-Erwärmung beeinflusst. Dies funktioniert auch gut mit einem Fotek SSR-10DA Solid State Relais in eine 250W
+ * Heizung. Wenn sich Ihre Konfiguration deutlich von dieser unterscheidet und Sie die damit verbundenen Probleme nicht verstehen
+ * verwenden Sie keine Bett-PID, bis jemand anderes überprüft hat, dass Ihre Hardware funktioniert.
  */
 #define PIDTEMPBED
 
@@ -553,11 +554,11 @@
 #endif // PIDTEMPBED
 
 #if EITHER(PIDTEMP, PIDTEMPBED)
-  //#define PID_DEBUG             // Sends debug data to the serial port. Use 'M303 D' to toggle activation.
-  //#define PID_OPENLOOP          // Puts PID in open loop. M104/M140 sets the output power from 0 to PID_MAX
-  //#define SLOW_PWM_HEATERS      // PWM with very low frequency (roughly 0.125Hz=8s) and minimum state time of approximately 1s useful for heaters driven by a relay
-  #define PID_FUNCTIONAL_RANGE 10 // If the temperature difference between the target temperature and the actual temperature
-                                  // is more than PID_FUNCTIONAL_RANGE then the PID will be shut off and the heater will be set to min/max.
+  #define PID_DEBUG                // Sends debug data to the serial port. Use 'M303 D' to toggle activation.
+  //#define PID_OPENLOOP           // Puts PID in open loop. M104/M140 sets the output power from 0 to PID_MAX
+  //#define SLOW_PWM_HEATERS       // PWM with very low frequency (roughly 0.125Hz=8s) and minimum state time of approximately 1s useful for heaters driven by a relay
+  #define PID_FUNCTIONAL_RANGE -2  // Wenn die Temperaturdifferenz zwischen der Solltemperatur und der Isttemperatur
+                                   // größer als PID_FUNCTIONAL_RANGE ist, wird PID abgeschaltet und die Heizung auf min/max gesetzt.
 #endif
 
 // @section extruder
@@ -1098,7 +1099,7 @@
 // @section extruder
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
-#define INVERT_E0_DIR false
+#define INVERT_E0_DIR true
 #define INVERT_E1_DIR false
 #define INVERT_E2_DIR false
 #define INVERT_E3_DIR false
@@ -1980,87 +1981,73 @@
 //
 // CONTROLLER TYPE: Graphical 128x64 (DOGM)
 //
-// IMPORTANT: The U8glib library is required for Graphical Display!
-//            https://github.com/olikraus/U8glib_Arduino
+// Wichtig: Die U8glib-Bibliothek wird für die grafische Darstellung benötigt!
+//          https://github.com/olikraus/U8glib_Arduino
 //
-// NOTE: If the LCD is unresponsive you may need to reverse the plugs.
-//
+// Info: Wenn die LCD-Anzeige nicht reagiert, müssen Sie möglicherweise die Stecker umdrehen.
 
-//
-// RepRapDiscount FULL GRAPHIC Smart Controller
+// RepRapDiscount Vollgrafik Smart Controller
 // https://reprap.org/wiki/RepRapDiscount_Full_Graphic_Smart_Controller
 //
 #define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
 
-//
 // ReprapWorld Graphical LCD
 // https://reprapworld.com/?products_details&products_id/1218
 //
 //#define REPRAPWORLD_GRAPHICAL_LCD
 
-//
-// Activate one of these if you have a Panucatt Devices
-// Viki 2.0 or mini Viki with Graphic LCD
+// Aktivieren Sie eines dieser Geräte, wenn Sie ein Panucatt-Gerät besitzen
+// Viki 2.0 oder mini Viki mit Grafik-LCD
 // https://www.panucatt.com
 //
 //#define VIKI2
 //#define miniVIKI
 
-//
-// MakerLab Mini Panel with graphic
-// controller and SD support - https://reprap.org/wiki/Mini_panel
+// MakerLab Mini Panel mit Grafiksteuerung und SD Unterstützung.
+// https://reprap.org/wiki/Mini_panel
 //
 //#define MINIPANEL
 
-//
-// MaKr3d Makr-Panel with graphic controller and SD support.
+// MaKr3d Makr-Panel mit Grafiksteuerung und SD Unterstützung.
 // https://reprap.org/wiki/MaKr3d_MaKrPanel
 //
 //#define MAKRPANEL
 
-//
-// Adafruit ST7565 Full Graphic Controller.
+// Adafruit ST7565 Voll Grafiksteuerung.
 // https://github.com/eboston/Adafruit-ST7565-Full-Graphic-Controller/
 //
 //#define ELB_FULL_GRAPHIC_CONTROLLER
 
-//
-// BQ LCD Smart Controller shipped by
-// default with the BQ Hephestos 2 and Witbox 2.
+// BQ LCD Smart Controller standardmäßig mit dem BQ Hephestos 2 und der Witbox 2.
 //
 //#define BQ_LCD_SMART_CONTROLLER
 
-//
-// Cartesio UI
+// Cartesio UI grafisches Display
 // http://mauk.cc/webshop/cartesio-shop/electronics/user-interface
 //
 //#define CARTESIO_UI
 
-//
-// LCD for Melzi Card with Graphical LCD
+// LCD für das Melzi Board und grafischem LCD
 //
 //#define LCD_FOR_MELZI
 
-//
-// Original Ulticontroller from Ultimaker 2 printer with SSD1309 I2C display and encoder
+// Original Ulticontroller vom Ultimaker 2 printer mit SSD1309 I2C Display und Encoder
 // https://github.com/Ultimaker/Ultimaker2/tree/master/1249_Ulticontroller_Board_(x1)
 //
 //#define ULTI_CONTROLLER
 
-//
-// MKS MINI12864 with graphic controller and SD support
+// MKS MINI12864 mit Grafiksteuerung und SD Unterstützung.
 // https://reprap.org/wiki/MKS_MINI_12864
 //
 //#define MKS_MINI_12864
 
-//
-// MKS LCD12864A/B with graphic controller and SD support. Follows MKS_MINI_12864 pinout.
+// MKS LCD12864A/B mit Grafiksteuerung und SD support. 
+// Gleiches Pinout wie das MKS_MINI_12864.
 // https://www.aliexpress.com/item/33018110072.html
 //
 //#define MKS_LCD12864
 
-//
-// FYSETC variant of the MINI12864 graphic controller with SD support
+// FYSETC Variante vom MINI12864 Grafiksteuerung mit SD Unterstützung
 // https://wiki.fysetc.com/Mini12864_Panel/
 //
 //#define FYSETC_MINI_12864_X_X    // Type C/D/E/F. No tunable RGB Backlight by default
@@ -2069,36 +2056,31 @@
 //#define FYSETC_MINI_12864_2_1    // Type A/B. NeoPixel RGB Backlight
 //#define FYSETC_GENERIC_12864_1_1 // Larger display with basic ON/OFF backlight.
 
-//
-// Factory display for Creality CR-10
+// Werksdisplay für den Creality CR-10
 // https://www.aliexpress.com/item/32833148327.html
 //
-// This is RAMPS-compatible using a single 10-pin connector.
-// (For CR-10 owners who want to replace the Melzi Creality board but retain the display)
+// Dieses ist RAMPS-kompatibel und verwendet einen einzelnen 10-poligen Stecker.
+// (Für CR-10-Besitzer, die die Melzi-Creality-Platine ersetzen möchten, aber das Display vewenden möchten)
 //
 //#define CR10_STOCKDISPLAY
 
-//
-// Ender-2 OEM display, a variant of the MKS_MINI_12864
+// Ender-2 OEM-Display, eine Variante des MKS_MINI_12864
 //
 //#define ENDER2_STOCKDISPLAY
 
+// ANET und Tronxy Grafiksteuerung
 //
-// ANET and Tronxy Graphical Controller
-//
-// Anet 128x64 full graphics lcd with rotary encoder as used on Anet A6
-// A clone of the RepRapDiscount full graphics display but with
-// different pins/wiring (see pins_ANET_10.h).
+// Anet 128x64 Vollgrafik-LCD mit Drehgeber, wie beim Anet A6 verwendet
+// Ein Klon des RepRapDiscount-Vollgrafikdisplays, aber mit
+// anderen Pins/Verdrahtung (siehe pins_ANET_10.h).
 //
 //#define ANET_FULL_GRAPHICS_LCD
 
-//
 // AZSMZ 12864 LCD with SD
 // https://www.aliexpress.com/item/32837222770.html
 //
 //#define AZSMZ_12864
 
-//
 // Silvergate GLCD controller
 // https://github.com/android444/Silvergate
 //
