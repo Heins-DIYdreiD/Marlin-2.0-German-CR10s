@@ -10,9 +10,9 @@
  * Free Software Foundationder veröffentlichte , entweder Version 3 der Lizenz, oder
  * (nach Ihrer Wahl) jede spätere Version.
  *
- * Dieses Programm wird in der Hoffnung verteilt, dass es nützlich sein wird,
- * aber OHNE JEDE GARANTIE; auch ohne die stillschweigende Garantie von
- * Gebrauchstauglichkeit oder Gewährleistungen der Eignung für einen speziellen Zweck.
+ * Dieses Programm wird in der Hoffnung verteilt, dass es für euch nützlich sein wird,
+ * aber OHNE JEDE GARANTIE; auch ohne die stillschweigende Garantie von einer 
+ * Gebrauchstauglichkeit, oder einer Gewährleistungen, der Eignung für einen speziellen Zweck.
  * Siehe die GNU General Public License für weitere Details.
  *
  * Sie sollten eine Kopie der GNU General Public License erhalten haben
@@ -22,9 +22,8 @@
 #pragma once
 
 /**  Configuration.h -- Abschnitte
- * 
  *
- * Basic Einstellungen wie:
+ * Basic settings such as:
  *
  * - Type of electronics
  * - Type of temperature sensor
@@ -33,14 +32,14 @@
  * - LCD controller
  * - Extra features
  *
- * Advanced settings can be found in Configuration_adv.h
+ * Erweiterte Einstellungen sind in der Configuration_adv.h zu finden.
  */
 #define CONFIGURATION_H_VERSION 020007
 
 //============================= Getting Started =============================
 //===========================================================================
 
-/**  Hier sind einige Standardlinks, um Ihre Maschine kalibrieren zu können:
+/**  Hier sind einige Standardlinks, um den Drucker kalibrieren zu können:
  * 
  * https://reprap.org/wiki/Calibration
  * https://youtu.be/wAL9d7FgInk
@@ -55,16 +54,13 @@
 //=============================================================================
 // Für einen Delta-Drucker beginnen Sie mit einer der Konfigurationsdateien im
 // config/examples/delta Verzeichnis und passen sie für Ihren Rechner an.
-//
 
 //============================= SCARA Printer =================================
 //=============================================================================
 // Für einen Scara-Drucker beginnen Sie mit einer der Konfigurationsdateien im
 // config/examples/SCARA Verzeichnis und passen sie für Ihren Rechner an.
-//
 
-// -----------------------------  @section info  ----------------------------------------
-// --------------------------------------------------------------------------------------
+// #----------------------------------------------=====  @section info  =====----------------------------------------------#
 
 // Authoren Info dieses Builds das beim Bootvorgang und dem Befehl M115 angezeigt wird.
 // Wer machte die Änderungen.
@@ -79,7 +75,7 @@
  * Mit dieser Option zeigt Marlin zuerst Ihren benutzerdefinierten Bildschirm an
  * durch das standardmässige Marlin Logo mit Versionsnummer und Web-URL.
  *
- * Wir möchten Sie ermutigen, die Vorteile dieser neuen Funktion zu nutzen und wir auch
+ * Wir hoffen es ermutigt Sie, die Vorteile dieser neuen Funktion zu nutzen und bitten 
  * Bitte respektvoll darum, den unveränderten Marlin-Bootbildschirm beizubehalten. 
  */
 
@@ -92,8 +88,7 @@
 // Zeige das Bitmap in Marlin/_Statusscreen.h während des Startvorgangs.
 //#define CUSTOM_STATUS_SCREEN_IMAGE
 
-// -----------------------------  @section machine  -------------------------------------
-// --------------------------------------------------------------------------------------
+// #----------------------------------------------=====  @section machine  =====-------------------------------------------#
 
 /**  Serielle Schnittstellenkomunikation
  * 
@@ -111,6 +106,7 @@
  * 
  * Wählen Sie die zweite serielle Schnittstelle auf der Platine, 
  * die für die Kommunikation mit dem Host verwendet werden soll.
+ * Anmerkung: Der zweite Port ist meist der Display-Port.
  *
  * :[-1, 0, 1, 2, 3, 4, 5, 6, 7]
  */
@@ -121,31 +117,32 @@
 * 250000 funktioniert in den meisten Fällen, aber Sie könnten eine geringere Geschwindigkeit versuchen,
 * wenn Sie häufige Aussetzer während des Host-Drucks haben.
 * Sie können bis zu 1000000 versuchen, um die SD-Dateiübertragung zu beschleunigen.
+* Die Bautrate muss auch zu dem angeschlossenem Display passen. 
+* Anmerkung: Beide Ports benutzen die eingestellte Bautrate
  *
  * :[2400, 9600, 19200, 38400, 57600, 115200, 250000, 500000, 1000000]
  */
-#define BAUDRATE 115200
+#define BAUDRATE 250000
 
 // Aktivieren der seriellen Bluetooth Schnittstelle bei AT90USB Controllern
 //#define BLUETOOTH
 
 // Wähle den Boardname aus der boards.h der zu deinem Board passt.
-#ifndef MOTHERBOARD1 // Boardname
+#ifndef MOTHERBOARD1
   #define MOTHERBOARD BOARD_BTT_SKR_V1_4_TURBO
 #endif
 
 // Der Name wird in der LCD-Anzeige in der "Ready" message und im Info Menu angezeigt.
-#define CUSTOM_MACHINE_NAME "13/04"
+#define CUSTOM_MACHINE_NAME "29/04"
 
 // Die eindeutige ID des Druckers, die von einigen Programmen verwendet wird,
 // um zwischen einzelen Geräten zu unterscheiden zu können.
-// Wählen Sie Ihre eigenen ID oder nutzen Sie einen Service wie https://www.uuidgenerator.net/version4
+// Wählen Sie Ihre eigene ID oder nutzen Sie einen Service wie https://www.uuidgenerator.net/version4
 //#define MACHINE_UUID "00000000-0000-0000-0000-000000000000"
 
-// -----------------------------  @section extruder  ------------------------------------
-// --------------------------------------------------------------------------------------
+// #----------------------------------------------=====  @section extruder  =====------------------------------------------#
 
-// Wie viele extruders sind im Drucker
+// Wie viele Extruder sind im Drucker eingebaut.
 // :[0, 1, 2, 3, 4, 5, 6, 7, 8]
 #define EXTRUDERS 1
 
@@ -232,14 +229,14 @@
 
   #define PARKING_EXTRUDER_PARKING_X { -78, 184 }     // X-Positionen für die Parkposition der Extruder
   #define PARKING_EXTRUDER_GRAB_DISTANCE 1            // (mm) Abstand zum Überfahren des Parkpunkts, um den Extruder zu greifen
-  //#define MANUAL_SOLENOID_CONTROL                   // Manuelle Steuerung von Solenoidem Andockmechanismus mit M380 S / M381
+  //#define MANUAL_SOLENOID_CONTROL                   // Manuelle Steuerung des Solenoidem Andockmechanismuses mit M380 S / M381
 
   #if ENABLED(PARKING_EXTRUDER)
 
     #define PARKING_EXTRUDER_SOLENOIDS_INVERT           // Wenn die Invertierung aktiviert, wird der Magnet bei angelegter Spannung NICHT magnetisiert
     #define PARKING_EXTRUDER_SOLENOIDS_PINS_ACTIVE LOW  // LOW- oder HIGH-Pin-Signal Schaltet die Spule
     #define PARKING_EXTRUDER_SOLENOIDS_DELAY 250        // (ms) Verzögerung für Magnetfeld. Keine Verzögerung, wenn Wert 0 oder nicht definiert.
-    //#define MANUAL_SOLENOID_CONTROL                   // Manuelle Steuerung von Solenoidem Andockmechanismus mit M380 S / M381
+    //#define MANUAL_SOLENOID_CONTROL                   // Manuelle Steuerung des Solenoidem Andockmechanismuses mit M380 S / M381
 
   #elif ENABLED(MAGNETIC_PARKING_EXTRUDER)
 
@@ -253,44 +250,44 @@
 #endif
 
 /**
- * Switching Toolhead
+ * Werkzeugwechselkopf
  *
- * Support for swappable and dockable toolheads, such as
- * the E3D Tool Changer. Toolheads are locked with a servo.
+ * Unterstützung für austauschbare und andockbare Werkzeugköpfe, wie z. B.
+ * der E3D-Werkzeugwechsler. Diese Werkzeugköpfe werden mit einem Servo verriegelt.
  */
 //#define SWITCHING_TOOLHEAD
 
 /**
- * Magnetic Switching Toolhead
+ * Magnetischer Werkzeugwechselkopf
  *
- * Support swappable and dockable toolheads with a magnetic
- * docking mechanism using movement and no servo.
+ * Unterstützt austauschbare und andockbare Werkzeugköpfe mit einem magnetischen
+ * Andockmechanismus mit Bewegung und ohne Servo.
  */
 //#define MAGNETIC_SWITCHING_TOOLHEAD
 
 /**
- * Electromagnetic Switching Toolhead
+ * Elektromagnetischer Werkzeugwechselkopf
  *
- * Parking for CoreXY / HBot kinematics.
- * Toolheads are parked at one edge and held with an electromagnet.
- * Supports more than 2 Toolheads. See https://youtu.be/JolbsAKTKf4
+ * Parken für CoreXY / HBot-Kinematik.
+ * Werkzeugköpfe werden an einer Kante geparkt und mit einem Elektromagneten gehalten.
+ * Unterstützt mehr als 2 Werkzeugköpfe. See https://youtu.be/JolbsAKTKf4
  */
 //#define ELECTROMAGNETIC_SWITCHING_TOOLHEAD
 
 #if ANY(SWITCHING_TOOLHEAD, MAGNETIC_SWITCHING_TOOLHEAD, ELECTROMAGNETIC_SWITCHING_TOOLHEAD)
-  #define SWITCHING_TOOLHEAD_Y_POS          235         // (mm) Y position of the toolhead dock
-  #define SWITCHING_TOOLHEAD_Y_SECURITY      10         // (mm) Security distance Y axis
-  #define SWITCHING_TOOLHEAD_Y_CLEAR         60         // (mm) Minimum distance from dock for unobstructed X axis
-  #define SWITCHING_TOOLHEAD_X_POS          { 215, 0 }  // (mm) X positions for parking the extruders
+  #define SWITCHING_TOOLHEAD_Y_POS          235         // (mm) Y Position der Werkzeugkopf Dock
+  #define SWITCHING_TOOLHEAD_Y_SECURITY      10         // (mm) Sicherheitsbereich Y Achse
+  #define SWITCHING_TOOLHEAD_Y_CLEAR         60         // (mm) Minimum Entfernung zwischen Dock und einer freien X-Achse
+  #define SWITCHING_TOOLHEAD_X_POS          { 215, 0 }  // (mm) X-Positionen zum Abstellen der Extruder
   #if ENABLED(SWITCHING_TOOLHEAD)
-    #define SWITCHING_TOOLHEAD_SERVO_NR       2         // Index of the servo connector
-    #define SWITCHING_TOOLHEAD_SERVO_ANGLES { 0, 180 }  // (degrees) Angles for Lock, Unlock
+    #define SWITCHING_TOOLHEAD_SERVO_NR       2         // Index des Servoanschlusses
+    #define SWITCHING_TOOLHEAD_SERVO_ANGLES { 0, 180 }  // (Grad) Winkelposition Verriegelt, Entriegelt
   #elif ENABLED(MAGNETIC_SWITCHING_TOOLHEAD)
-    #define SWITCHING_TOOLHEAD_Y_RELEASE      5         // (mm) Security distance Y axis
-    #define SWITCHING_TOOLHEAD_X_SECURITY   { 90, 150 } // (mm) Security distance X axis (T0,T1)
-    //#define PRIME_BEFORE_REMOVE                       // Prime the nozzle before release from the dock
+    #define SWITCHING_TOOLHEAD_Y_RELEASE      5         // (mm) Sicherheitsentfernung Y-Achse
+    #define SWITCHING_TOOLHEAD_X_SECURITY   { 90, 150 } // (mm) Sicherheitsentfernung X-Achse (T0,T1)
+    //#define PRIME_BEFORE_REMOVE                       // Aktiviere den Kopf bevor er vom Dock entnommen wird
     #if ENABLED(PRIME_BEFORE_REMOVE)
-      #define SWITCHING_TOOLHEAD_PRIME_MM           20  // (mm)   Extruder prime length
+      #define SWITCHING_TOOLHEAD_PRIME_MM           20  // (mm)   Werkzeugkopf Hauptlänge
       #define SWITCHING_TOOLHEAD_RETRACT_MM         10  // (mm)   Retract after priming length
       #define SWITCHING_TOOLHEAD_PRIME_FEEDRATE    300  // (mm/min) Extruder prime feedrate
       #define SWITCHING_TOOLHEAD_RETRACT_FEEDRATE 2400  // (mm/min) Extruder retract feedrate
@@ -301,38 +298,39 @@
 #endif
 
 /**
- * "Mixing Extruder"
- *   - Adds G-codes M163 and M164 to set and "commit" the current mix factors.
- *   - Extends the stepping routines to move multiple steppers in proportion to the mix.
- *   - Optional support for Repetier Firmware's 'M164 S<index>' supporting virtual tools.
- *   - This implementation supports up to two mixing extruders.
- *   - Enable DIRECT_MIXING_IN_G1 for M165 and mixing in G1 (from Pia Taubert's reference implementation).
+ * "Mischextruder"
+ *  - Fügt die G-Codes M163 und M164 hinzu, um die aktuellen Mischfaktoren einzustellen und zu "bestätigen".
+ *  - Erweitert die Stepping-Routinen, um mehrere Stepper proportional zur Mischung zu bewegen.
+ *  - Optionale Unterstützung für die virtuellen Werkzeuge der Repetier-Firmware 'M164 S<index>'.
+ *  - Diese Implementierung unterstützt bis zu zwei Mischextruder.
+ *  - Aktivieren Sie DIRECT_MIXING_IN_G1 für M165 und Mischen in G1 (aus der Referenzimplementierung von Pia Taubert).
  */
 //#define MIXING_EXTRUDER
 #if ENABLED(MIXING_EXTRUDER)
-  #define MIXING_STEPPERS 2        // Number of steppers in your mixing extruder
-  #define MIXING_VIRTUAL_TOOLS 16  // Use the Virtual Tool method with M163 and M164
-  //#define DIRECT_MIXING_IN_G1    // Allow ABCDHI mix factors in G1 movement commands
+  #define MIXING_STEPPERS 2        // Anzahl der Steppermotoren die sich im Mischextruder befinden.
+  #define MIXING_VIRTUAL_TOOLS 16  // Verwendung der Virtuellen Werkzeugmethode mit M163 und M164
+  //#define DIRECT_MIXING_IN_G1    // ABCDHI-Mischfaktoren in G1-Bewegungsbefehlen zulassen
   //#define GRADIENT_MIX           // Support for gradient mixing with M166 and LCD
   #if ENABLED(GRADIENT_MIX)
     //#define GRADIENT_VTOOL       // Add M166 T to use a V-tool index as a Gradient alias
   #endif
 #endif
 
-// Offset of the extruders (uncomment if using more than one and relying on firmware to position when changing).
-// The offset has to be X=0, Y=0 for the extruder 0 hotend (default extruder).
-// For the other hotends it is their distance from the extruder 0 hotend.
+// Offset der Extruder (nicht auskommentieren, wenn Sie mehr als einen verwenden und 
+// sich auf die Positionierung durch die Firmware beim Wechsel verlassen).
+// Der Offset muss X=0, Y=0 für den Extruder 0 hotend (Standardextruder) sein.
+// Für die anderen Hotends ist es ihr Abstand vom Extruder 0 Hotend.
 //#define HOTEND_OFFSET_X { 0.0, 20.00 } // (mm) relative X-offset for each nozzle
 //#define HOTEND_OFFSET_Y { 0.0, 5.00 }  // (mm) relative Y-offset for each nozzle
 //#define HOTEND_OFFSET_Z { 0.0, 0.00 }  // (mm) relative Z-offset for each nozzle
 
-// @section machine
+// #----------------------------------------------=====  @section machine  =====-------------------------------------------#
 
 /**
- * Power Supply Control
+ * Steuerung der Spannungsversorgung
  *
- * Enable and connect the power supply to the PS_ON_PIN.
- * Specify whether the power supply is active HIGH or active LOW.
+ * Aktivieren und verbinden Sie die Spannungsversorgung mit dem PS_ON_PIN.
+ * Legen Sie fest, ob die Spannungsversorgung aktiv HIGH oder aktiv LOW ist.
  */
 //#define PSU_CONTROL
 //#define PSU_NAME "Power Supply"
@@ -355,11 +353,11 @@
   #endif
 #endif
 
-// -----------------------------  @section temperature  ---------------------------------
-// --------------------------------------------------------------------------------------
+// #----------------------------------------------=====  @section temperature  =====---------------------------------------#
 
 /**
- * --NORMAL IS 4.7kohm PULLUP!-- 1kohm pullup can be used on hotend sensor, using correct resistor and table
+ * --Standard sind 4.7kohm PullUp's!-- 1kohm PullUp's können, unter Verwendung des richtigen Widerstands 
+ * und der folgenden Tabelle, am Hotend-Sensor verwendet werden, 
  *
  * Temperature sensors available:
  *
@@ -416,9 +414,9 @@
  *   147 : Pt100 with 4k7 pullup
  *   110 : Pt100 with 1k pullup (non standard)
  *
- *  1000 : Custom - Specify parameters in Configuration_adv.h
+ *  1000 : Benutzerdefiniert - Geben Sie Parameter in der Configuration_adv.h Zeile 54 an 
  *
- *         Use these for Testing or Development purposes. NEVER for production machine.
+ *         Verwenden Sie die folgenden Dummys für Test- oder Entwicklungszwecke. NIEMALS für Produktionsmaschinen.
  *   998 : Dummy Table that ALWAYS reads 25°C or the temperature defined below.
  *   999 : Dummy Table that ALWAYS reads 100°C or the temperature defined below.
  */
@@ -438,27 +436,27 @@
 #define DUMMY_THERMISTOR_998_VALUE 25
 #define DUMMY_THERMISTOR_999_VALUE 100
 
-// Resistor values when using a MAX31865 (sensor -5)
-// Sensor value is typically 100 (PT100) or 1000 (PT1000)
-// Calibration value is typically 430 ohm for AdaFruit PT100 modules and 4300 ohm for AdaFruit PT1000 modules.
+// Widerstandswerte bei Verwendung eines MAX31865 (Sensor -5)
+// Sensorwert ist typischerweise 100 (PT100) oder 1000 (PT1000)
+// Kalibrierwert ist typischerweise 430 Ohm für AdaFruit PT100-Module und 4300 Ohm für AdaFruit PT1000-Module.
 //#define MAX31865_SENSOR_OHMS      100
 //#define MAX31865_CALIBRATION_OHMS 430
 
-// Use temp sensor 1 as a redundant sensor with sensor 0. If the readings
-// from the two sensors differ too much the print will be aborted.
+// Verwenden Sie Temperatursensor 1 als redundanten Sensor mit Sensor 0. Wenn die Messwerte
+// von den beiden Sensoren zu sehr voneinander abweichen, wird der Druck abgebrochen.
 //#define TEMP_SENSOR_1_AS_REDUNDANT
 #define MAX_REDUNDANT_TEMP_SENSOR_DIFF 10
 
-#define TEMP_RESIDENCY_TIME     10  // (seconds) Time to wait for hotend to "settle" in M109
-#define TEMP_WINDOW              1  // (°C) Temperature proximity for the "temperature reached" timer
-#define TEMP_HYSTERESIS          3  // (°C) Temperature proximity considered "close enough" to the target
+#define TEMP_RESIDENCY_TIME     10  // (sekunden) Wartezeit bis sich das Hotend im M109 "eingependelt" hat
+#define TEMP_WINDOW              1  // (°C) Temperaturfenster für den Timer "Temperatur erreicht"
+#define TEMP_HYSTERESIS          3  // (°C) Temperaturfenster, die als "nah genug" zum Ziel gilt
 
-#define TEMP_BED_RESIDENCY_TIME 10  // (seconds) Time to wait for bed to "settle" in M190
-#define TEMP_BED_WINDOW          1  // (°C) Temperature proximity for the "temperature reached" timer
-#define TEMP_BED_HYSTERESIS      3  // (°C) Temperature proximity considered "close enough" to the target
+#define TEMP_BED_RESIDENCY_TIME 10  // (sekunden) Wartezeit bis sich das Heizbett im M19 "eingependelt" hat
+#define TEMP_BED_WINDOW          1  // (°C) Temperaturfenster für den Timer "Temperatur erreicht"
+#define TEMP_BED_HYSTERESIS      3  // (°C) Temperaturfenster, die als "nah genug" zum Ziel gilt
 
-// Below this temperature the heater will be switched off
-// because it probably indicates a broken thermistor wire.
+// Unterhalb dieser Temperatur wird die Heizung ausgeschaltet
+// weil es wahrscheinlich auf einen gebrochenen Thermistordraht hinweist.
 #define HEATER_0_MINTEMP   5
 #define HEATER_1_MINTEMP   5
 #define HEATER_2_MINTEMP   5
@@ -469,9 +467,9 @@
 #define HEATER_7_MINTEMP   5
 #define BED_MINTEMP        5
 
-// Above this temperature the heater will be switched off.
-// This can protect components from overheating, but NOT from shorts and failures.
-// (Use MINTEMP for thermistor short/failure protection.)
+// Oberhalb dieser Temperatur wird die Heizung abgeschaltet.
+// Dies kann Komponenten vor Überhitzung schützen, aber NICHT vor Kurzschlüssen und Ausfällen.
+// (Verwenden Sie MINTEMP für den Kurzschluss-/Ausfallschutz von Thermistoren.)
 #define HEATER_0_MAXTEMP 275
 #define HEATER_1_MAXTEMP 275
 #define HEATER_2_MAXTEMP 275
@@ -482,38 +480,39 @@
 #define HEATER_7_MAXTEMP 275
 #define BED_MAXTEMP      150
 
-//===========================================================================
-//============================= PID Settings ================================
-//===========================================================================
+//===============================================================================
+//======= PID Einstellungen > Hotend Temperatur Kontrolle =======================
+//===============================================================================
+
 // PID (proportional-integral-derivativen Regelalgorithmus) Tuning Guide here: https://reprap.org/wiki/PID_Tuning
 
 #define PIDTEMP          // Kommentieren Sie die Zeile aus, um PID zu deaktivieren und Bang-Bang zu aktivieren.
 #define BANG_MAX 255     // Stromstärkenbegrenzer der Nozzle bei aktiviertem bang-bang Modus; 255=volle Leistung
-#define PID_MAX BANG_MAX // Stromstärkenbegrenzer der Nozzle bei aktiviertem (see PID_FUNCTIONAL_RANGE below); 255=volle Leistung
+#define PID_MAX BANG_MAX // Stromstärkenbegrenzer der Nozzle bei aktiviertem PID (see PID_FUNCTIONAL_RANGE below); 255=volle Leistung
 #define PID_K1 0.95      // Glättungsfaktor innerhalb einer beliebigen PID-Schleife
 
 #if ENABLED(PIDTEMP)
-  //#define PID_EDIT_MENU         // Add PID editing to the "Advanced Settings" menu. (~700 bytes of PROGMEM)
-  #define PID_AUTOTUNE_MENU       // Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of PROGMEM)
-  //#define PID_PARAMS_PER_HOTEND // Uses separate PID parameters for each extruder (useful for mismatched extruders)
-                                  // Set/get with gcode: M301 E[extruder number, 0-2]
+  //#define PID_EDIT_MENU         // Hinzufügen der PID-Bearbeitung zum Menü "Erweiterte Einstellungen". (~700 Bytes von PROGMEM)
+  #define PID_AUTOTUNE_MENU       // Fügen Sie die PID-Autotuning-Funktion zum Menü "Erweiterte Einstellungen" hinzu. (~250 Bytes von PROGMEM)
+  //#define PID_PARAMS_PER_HOTEND // Verwendet separate PID-Parameter für jeden Extruder (nützlich für nicht angepasste Extruder)
+                                  // Setzen/Lesen mit gcode: M301 E[Extruder-Nummer, 0-2]
 
   #if ENABLED(PID_PARAMS_PER_HOTEND)
-    // Specify between 1 and HOTENDS values per array.
-    // If fewer than EXTRUDER values are provided, the last element will be repeated.
+    // Geben Sie mindestens 1 HOTEND-Werten pro Array an.
+    // Wenn weniger EXTRUDER-Werte angegeben werden, wird das letzte Element wiederholt.
     #define DEFAULT_Kp_LIST {  22.20,  22.20 }
     #define DEFAULT_Ki_LIST {   1.08,   1.08 }
     #define DEFAULT_Kd_LIST { 114.00, 114.00 }
   #else
-    #define DEFAULT_Kp  22.20
-    #define DEFAULT_Ki   1.08
-    #define DEFAULT_Kd 114.00
+    #define DEFAULT_Kp  28.41
+    #define DEFAULT_Ki  3.05
+    #define DEFAULT_Kd  66.22
   #endif
 #endif // PIDTEMP
 
-//===========================================================================
-//====================== PID > Bed Temperature Control ======================
-//===========================================================================
+//===============================================================================================
+//==================== PID Einstellungen > Heizbett Temperatur Kontrolle ========================
+//===============================================================================================
 
 /**
  * PID Bed Heating
@@ -533,82 +532,83 @@
 //#define BED_LIMIT_SWITCHING
 
 /**
- * Max Bed Power
- * Applies to all forms of bed control (PID, bang-bang, and bang-bang with hysteresis).
- * When set to any value below 255, enables a form of PWM to the bed that acts like a divider
- * so don't use it unless you are OK with PWM on your bed. (See the comment on enabling PIDTEMPBED)
+ * Maximale Bettleistung
+ * Gilt für alle Formen der Bettenregelung (PID, Bang-Bang und Bang-Bang mit Hysterese).
+ * Wenn dieser Parameter auf einen Wert unter 255 gesetzt wird, aktiviert er eine Form der PWM für das Bett, die wie ein Teiler wirkt.
+ * Verwenden Sie diese Option also nur, wenn Sie mit PWM an Ihrem Bett einverstanden sind. (Siehe den Kommentar zur Aktivierung von PIDTEMPBED)
  */
-#define MAX_BED_POWER 255 // limits duty cycle to bed; 255=full current
+#define MAX_BED_POWER 255 // begrenzt die Einschaltdauer auf Bett; 255=Vollstrom
 
 #if ENABLED(PIDTEMPBED)
   //#define MIN_BED_POWER 0
-  //#define PID_BED_DEBUG // Sends debug data to the serial port.
+  //#define PID_BED_DEBUG // Sendet Debug-Daten an die serielle Schnittstelle.
 
-  // 120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
-  // from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
+  // 120V 250W Silikonheizung in 4mm Borosilikat (MendelMax 1.5+)
+  // aus FOPDT-Modell - kp=.39 Tp=405 Tdead=66, Tc auf 79,2 gesetzt, aggressiver Faktor von .15 (vs .1, 1, 10)
+
   #define DEFAULT_bedKp 10.00
   #define DEFAULT_bedKi .023
   #define DEFAULT_bedKd 305.4
 
-  // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
+  // Finden sie ihre eigenen Werte: "M303 E-1 C8 S90", um Autotune auf dem Bett bei 90 Grad Celsius für 8 Zyklen laufen zu lassen.
 #endif // PIDTEMPBED
 
 #if EITHER(PIDTEMP, PIDTEMPBED)
-  #define PID_DEBUG                // Sends debug data to the serial port. Use 'M303 D' to toggle activation.
-  //#define PID_OPENLOOP           // Puts PID in open loop. M104/M140 sets the output power from 0 to PID_MAX
-  //#define SLOW_PWM_HEATERS       // PWM with very low frequency (roughly 0.125Hz=8s) and minimum state time of approximately 1s useful for heaters driven by a relay
+  #define PID_DEBUG                // Sendet Debug-Daten an die serielle Schnittstelle. Verwenden Sie 'M303 D', um die Aktivierung umzuschalten.
+  //#define PID_OPENLOOP           // Schaltet den PID in den offenen Regelkreis. M104/M140 stellt die Ausgangsleistung von 0 bis PID_MAX ein.
+  //#define SLOW_PWM_HEATERS       // PWM mit sehr niedriger Frequenz (ca. 0,125Hz=8s) und minimaler Zustandszeit von ca. 1s nützlich für Heizungen, die von einem Relais gesteuert werden
   #define PID_FUNCTIONAL_RANGE -2  // Wenn die Temperaturdifferenz zwischen der Solltemperatur und der Isttemperatur
                                    // größer als PID_FUNCTIONAL_RANGE ist, wird PID abgeschaltet und die Heizung auf min/max gesetzt.
 #endif
 
-// @section extruder
+
+// #----------------------------------------------=====  @section extruder  =====------------------------------------------#
 
 /**
- * Prevent extrusion if the temperature is below EXTRUDE_MINTEMP.
- * Add M302 to set the minimum extrusion temperature and/or turn
- * cold extrusion prevention on and off.
+ * Verhindern Sie die Extrusion, wenn die Temperatur unter EXTRUDE_MINTEMP liegt.
+ * Fügen Sie M302 hinzu, um die minimale Extrusionstemperatur einzustellen und/oder die
+ * Kalt-Extrusionsverhinderung ein- und auszuschalten.
  *
- * *** IT IS HIGHLY RECOMMENDED TO LEAVE THIS OPTION ENABLED! ***
+ * *** Es wird dringend empfohlen, diese beiden Einstellungen aktiviert zu lassen ***
  */
 #define PREVENT_COLD_EXTRUSION
 #define EXTRUDE_MINTEMP 170
 
 /**
- * Prevent a single extrusion longer than EXTRUDE_MAXLENGTH.
- * Note: For Bowden Extruders make this large enough to allow load/unload.
+ * Verhindern Sie eine einzelne Extrusion, die länger als EXTRUDE_MAXLENGTH ist.
+ * Hinweis: Bei Bowden-Extrudern machen Sie diesen Wert groß genug, um das Laden/Entladen zu ermöglichen.
  */
 #define PREVENT_LENGTHY_EXTRUDE
 #define EXTRUDE_MAXLENGTH 200
 
-//===========================================================================
-//======================== Thermal Runaway Protection =======================
-//===========================================================================
+//===============================================================================================
+//================================== Thermo Ausfallschutz =======================================
+//===============================================================================================
 
 /**
- * Thermal Protection provides additional protection to your printer from damage
- * and fire. Marlin always includes safe min and max temperature ranges which
- * protect against a broken or disconnected thermistor wire.
+ * Der Thermoschutz bietet eine zusätzliche Sicherheit für Ihren Drucker. Er schützt vor Beschädigung
+ * und Feuer Marlin enthält immer sichere Minimal- und Maximaltemperaturbereiche, die
+ * gegen einen gebrochenen oder nicht angeschlossenen Thermistordraht schützen.
  *
- * The issue: If a thermistor falls out, it will report the much lower
- * temperature of the air in the room, and the the firmware will keep
- * the heater on.
- *
- * If you get "Thermal Runaway" or "Heating failed" errors the
- * details can be tuned in Configuration_adv.h
+ * Das Problem: Wenn ein Thermistor ausfällt, meldet er die viel niedrigere Temperatur der Luft im Raum
+ * und die Firmware lässt die die Heizung an.
+ * 
+ * Wenn Sie "Thermal Runaway" oder "Heating failed" Fehler erhalten, können die Details 
+ * in der Configuration_adv.h eingestellt werden: Thermal Runaway Zeile 188, Heating failed Zeile 205
  */
 
 #define THERMAL_PROTECTION_HOTENDS // Enable thermal protection for all extruders
 #define THERMAL_PROTECTION_BED     // Enable thermal protection for the heated bed
 //#define THERMAL_PROTECTION_CHAMBER // Enable thermal protection for the heated chamber
 
-//===========================================================================
-//============================= Mechanical Settings =========================
-//===========================================================================
+// #----------------------------------------------=====  @section machine  =====-------------------------------------------#
 
-// @section machine
+//===============================================================================================
+//================================== Mechanische Einstellungen ==================================
+//===============================================================================================
 
-// Enable one of the options below for CoreXY, CoreXZ, or CoreYZ kinematics,
-// either in the usual order or reversed
+// Aktivieren Sie eine der folgenden Optionen für CoreXY-, CoreXZ- oder CoreYZ-Kinematiken,
+// entweder in der üblichen Reihenfolge oder in umgekehrter Reihenfolge
 //#define COREXY
 //#define COREXZ
 //#define COREYZ
@@ -617,11 +617,11 @@
 //#define COREZY
 //#define MARKFORGED_XY  // MarkForged. See https://reprap.org/forum/read.php?152,504042
 
-//===========================================================================
-//============================== Endstop Settings ===========================
-//===========================================================================
+//===============================================================================
+//================================== Endanschlag Einstellungen ==================
+//===============================================================================
 
-// @section homing
+// #----------------------------------------------=====  @section homing
 
 // Specify here all the endstop connectors that are connected to any endstop or probe.
 // Almost all printers will be using one per axis. Probes will use one or more of the
@@ -667,6 +667,11 @@
 #define Y_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define Z_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define Z_MIN_PROBE_ENDSTOP_INVERTING false // Set to true to invert the logic of the probe.
+
+
+//===============================================================================
+//================================== Stepper Treiber ===========================
+//===============================================================================
 
 /**
  * Stepper Drivers
@@ -723,9 +728,8 @@
 //#define DETECT_BROKEN_ENDSTOP
 
 //=============================================================================
-//============================== Movement Settings ============================
+//============================== Motor Schritteinstellungen ===================
 //=============================================================================
-// @section motion
 
 /**
  * Default Settings
@@ -836,7 +840,6 @@
 //===========================================================================
 //============================= Z Probe Options =============================
 //===========================================================================
-// @section probes
 
 //
 // See https://marlinfw.org/docs/configuration/probes.html
@@ -1084,19 +1087,19 @@
 // Turn off the display blinking that warns about possible accuracy reduction
 //#define DISABLE_REDUCED_ACCURACY_WARNING
 
-// @section extruder
+// #----------------------------------------------=====  @section extruder
 
 #define DISABLE_E false             // Disable the extruder when not stepping
 #define DISABLE_INACTIVE_EXTRUDER   // Keep only the active extruder enabled
 
-// @section machine
+// #----------------------------------------------=====  @section machine
 
 // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
 #define INVERT_X_DIR true
 #define INVERT_Y_DIR true
 #define INVERT_Z_DIR false
 
-// @section extruder
+// #----------------------------------------------=====  @section extruder
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
 #define INVERT_E0_DIR true
@@ -1108,7 +1111,7 @@
 #define INVERT_E6_DIR false
 #define INVERT_E7_DIR false
 
-// @section homing
+// #----------------------------------------------=====  @section homing
 
 //#define NO_MOTION_BEFORE_HOMING // Inhibit movement until all axes have been homed
 
@@ -1125,7 +1128,7 @@
 #define Y_HOME_DIR -1
 #define Z_HOME_DIR -1
 
-// @section machine
+// #----------------------------------------------=====  @section machine
 
 // The size of the print bed
 #define X_BED_SIZE 300
@@ -1203,7 +1206,7 @@
 //===========================================================================
 //=============================== Bed Leveling ==============================
 //===========================================================================
-// @section calibrate
+// #----------------------------------------------=====  @section calibrate
 
 /**
  * Choose one of the options below to enable G29 Bed Leveling. The parameters
@@ -1371,7 +1374,7 @@
  */
 //#define Z_PROBE_END_SCRIPT "G1 Z10 F12000\nG1 X15 Y330\nG1 Z0.5\nG1 Z10"
 
-// @section homing
+// #----------------------------------------------=====  @section homing
 
 // The center of the bed is at (X=0, Y=0)
 //#define BED_CENTER_AT_0_0
@@ -1405,7 +1408,7 @@
 // Validate that endstops are triggered on homing moves
 #define VALIDATE_HOMING_ENDSTOPS
 
-// @section calibrate
+// #----------------------------------------------=====  @section calibrate
 
 /**
  * Bed Skew Compensation
@@ -1466,7 +1469,7 @@
 //============================= Additional Features ===========================
 //=============================================================================
 
-// @section extras
+// #----------------------------------------------=====  @section extras
 
 /**
  * EEPROM
@@ -1505,7 +1508,7 @@
 //
 //#define TEMPERATURE_UNITS_SUPPORT
 
-// @section temperature
+// #----------------------------------------------=====  @section temperature
 
 // Preheat Constants
 #define PREHEAT_1_LABEL       "PLA"
@@ -1679,7 +1682,7 @@
 //============================= LCD and SD support ============================
 //=============================================================================
 
-// @section lcd
+// #----------------------------------------------=====  @section lcd
 
 /**
  * LCD LANGUAGE
@@ -2269,7 +2272,7 @@
 //=============================== Extra Features ==============================
 //=============================================================================
 
-// @section extras
+// #----------------------------------------------=====  @section extras
 
 // Set number of user-controlled fans. Disable to use all board-defined fans.
 // :[1,2,3,4,5,6,7,8]
