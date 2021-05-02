@@ -670,16 +670,17 @@
 
 
 //===============================================================================
-//================================== Stepper Treiber ===========================
+//================================== Steppertreiber ============================
 //===============================================================================
 
 /**
  * Stepper Drivers
  *
- * These settings allow Marlin to tune stepper driver timing and enable advanced options for
- * stepper drivers that support them. You may also override timing options in Configuration_adv.h.
+ * Mit diesen Einstellungen ist es ihnen möglich, das Timing von Steppertreibern abzustimmen und erweiterte Optionen für die
+ * Steppertreiber zu aktivieren, unterstützung der Steppertreiber vorausgesetzt. 
+ * Sie können so auch Timing-Optionen in Configuration_adv.h außer Kraft setzen.
  *
- * A4988 is assumed for unspecified drivers.
+ * A4988 Standard für nicht spezifizierte Treiber.
  *
  * Options: A4988, A5984, DRV8825, LV8729, L6470, L6474, POWERSTEP01,
  *          TB6560, TB6600, TMC2100,
@@ -706,25 +707,25 @@
 //#define E6_DRIVER_TYPE A4988
 //#define E7_DRIVER_TYPE A4988
 
-// Enable this feature if all enabled endstop pins are interrupt-capable.
-// This will remove the need to poll the interrupt pins, saving many CPU cycles.
+// Aktivieren Sie diese Funktion, wenn alle aktivierten Endstopp-Pins Interrupt-fähig sind.
+// Dadurch entfällt die Notwendigkeit, die Interrupt-Pins abzufragen, was viele CPU-Zyklen spart.
 //#define ENDSTOP_INTERRUPTS_FEATURE
 
 /**
- * Endstop Noise Threshold
+ * Rauschschwelle von Endanschlägen
  *
- * Enable if your probe or endstops falsely trigger due to noise.
+ * Aktivieren, wenn Ihre Sonde oder Endstopps aufgrund von Rauschen fälschlicherweise auslösen.
  *
- * - Higher values may affect repeatability or accuracy of some bed probes.
- * - To fix noise install a 100nF ceramic capacitor in parallel with the switch.
- * - This feature is not required for common micro-switches mounted on PCBs
- *   based on the Makerbot design, which already have the 100nF capacitor.
+ * - Höhere Werte können die Wiederholbarkeit oder Genauigkeit einiger Bettsonden beeinträchtigen.
+ * - Um Rauschen zu beheben, installieren Sie einen 100nF Keramikkondensator parallel zum Schalter.
+ * - Diese Funktion ist für übliche Mikroschalter, die auf Platinen montiert sind, nicht erforderlich.
+ * - Basierend auf dem Makerbot-Design, das den 100nF-Kondensator bereits enthält.
  *
  * :[2,3,4,5,6,7]
  */
 //#define ENDSTOP_NOISE_THRESHOLD 2
 
-// Check for stuck or disconnected endstops during homing moves.
+// Prüfen Sie, ob die Endanschläge während der Referenzfahrt festsitzen oder nicht angeschlossen sind.
 //#define DETECT_BROKEN_ENDSTOP
 
 //=============================================================================
@@ -734,69 +735,69 @@
 /**
  * Default Settings
  *
- * These settings can be reset by M502
- *
- * Note that if EEPROM is enabled, saved values will override these.
+ * Diese Einstellungen können mit dem Befehl M502 zurückgesetzt werden.
+ * 
+ * Beachten Sie, wenn das EEPROM aktiviert ist, gespeicherte Werte diese überschreiben.
  */
 
 /**
- * With this option each E stepper can have its own factors for the
- * following movement settings. If fewer factors are given than the
- * total number of extruders, the last value applies to the rest.
+ * Mit dieser Option kann jeder E-Stepper seine eigenen Faktoren für die
+ * folgende Bewegungseinstellungen. Wenn weniger Faktoren angegeben werden als die
+ * Gesamtzahl der Extruder, gilt der letzte Wert für den Rest.
  */
 //#define DISTINCT_E_FACTORS
 
 /**
- * Default Axis Steps Per Unit (steps/mm)
- * Override with M92
+ * Standard-Achsschritte pro Einheit (steps/mm)
+ * Übertrage mit M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
 #define DEFAULT_AXIS_STEPS_PER_UNIT   { 320, 320, 1600, 95 }
 
 /**
- * Default Max Feed Rate (mm/s)
- * Override with M203
+ * Standard Maximale Vorschubgeschwindigkeit (mm/s)
+ * Übertrage mit M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
 #define DEFAULT_MAX_FEEDRATE          { 2500, 2500, 100, 25 }
 
-//#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
+//#define LIMITED_MAX_FR_EDITING        // Übertrage mit M203 oder über Bildschirmeingabe: DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
-  #define MAX_FEEDRATE_EDIT_VALUES    { 600, 600, 10, 50 } // ...or, set your own edit limits
+  #define MAX_FEEDRATE_EDIT_VALUES    { 600, 600, 10, 50 } // ...oder, setzen sie ihre eigenen Limits
 #endif
 
 /**
- * Default Max Acceleration (change/s) change = mm/s
- * (Maximum start speed for accelerated moves)
- * Override with M201
+ * Die Standard maximale Beschleunigung (Änderung/s) Änderung = mm/s
+ * (Maximale Startgeschwindigkeit für beschleunigte Bewegungen)
+ * Übertrage mit M201
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
 #define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 100, 10000 }
 
-//#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
+//#define LIMITED_MAX_ACCEL_EDITING     // Übertrage mit M201 oder über Bildschirmeingabe: DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
   #define MAX_ACCEL_EDIT_VALUES       { 6000, 6000, 200, 20000 } // ...or, set your own edit limits
 #endif
 
 /**
- * Default Acceleration (change/s) change = mm/s
- * Override with M204
+ * Standard-Beschleunigung (Eintrag/s) Eintrag = mm/s
+ * Übertrage M204
  *
- *   M204 P    Acceleration
- *   M204 R    Retract Acceleration
- *   M204 T    Travel Acceleration
+ *   M204 P    Beschleunigung
+ *   M204 R    Rückzugbeschleunigung
+ *   M204 T    Wegbeschleunigung
  */
-#define DEFAULT_ACCELERATION          575    // X, Y, Z and E acceleration for printing moves
-#define DEFAULT_RETRACT_ACCELERATION  1000    // E acceleration for retracts
-#define DEFAULT_TRAVEL_ACCELERATION   1000    // X, Y, Z acceleration for travel (non printing) moves
+#define DEFAULT_ACCELERATION           575    // X, Y, Z und E Drucker Beschleunigung Allgemein
+#define DEFAULT_RETRACT_ACCELERATION  1000    // E Extruder Rückzugbeschleunigung
+#define DEFAULT_TRAVEL_ACCELERATION   1000    // X, Y, Z Wegbeschleunigung (nicht beim Druck)
 
 /**
- * Default Jerk limits (mm/s)
- * Override with M205 X Y Z E
+ * (Jerk) Standard-Reissgrenzen (mm/s)
+ * Übertrage mit M205 X Y Z E
  *
- * "Jerk" specifies the minimum speed change that requires acceleration.
- * When changing speed and direction, if the difference is less than the
- * value set here, it may happen instantaneously.
+ * "Jerk" (reissen oder rucken) gibt die minimale Geschwindigkeitsänderung an, die eine Beschleunigung erfordert.
+ * Bei einem Geschwindigkeits- und Richtungswechsel kann es zu Aussetzern kommen. Ist die Differenz zu dem 
+ * hier eingestellten Wert zu klein, kann es zu einem Jerk kommen.
  */
 #define CLASSIC_JERK
 #if ENABLED(CLASSIC_JERK)
@@ -804,34 +805,34 @@
   #define DEFAULT_YJERK  5.0
   #define DEFAULT_ZJERK  0.4
 
-  //#define TRAVEL_EXTRA_XYJERK 0.0     // Additional jerk allowance for all travel moves
+  //#define TRAVEL_EXTRA_XYJERK 0.0     // Zusätzlicher Pauschalwert für alle Fahrbewegungen
 
-  //#define LIMITED_JERK_EDITING        // Limit edit via M205 or LCD to DEFAULT_aJERK * 2
+  //#define LIMITED_JERK_EDITING        // Übertrage mit M205 oder über Bildschirmeingabe: DEFAULT_aJERK * 2 begrenzen
   #if ENABLED(LIMITED_JERK_EDITING)
     #define MAX_JERK_EDIT_VALUES { 20, 20, 0.6, 10 } // ...or, set your own edit limits
   #endif
 #endif
 
-#define DEFAULT_EJERK    5.0  // May be used by Linear Advance
+#define DEFAULT_EJERK    5.0  // Kann von Linear Advance, Configuration_adv.h ab Zeile 1639 verwendet werden
 
 /**
- * Junction Deviation Factor
+ * Abweichungsfaktor
  *
  * See:
  *   https://reprap.org/forum/read.php?1,739819
  *   https://blog.kyneticcnc.com/2018/10/computing-junction-deviation-for-marlin.html
  */
 #if DISABLED(CLASSIC_JERK)
-  #define JUNCTION_DEVIATION_MM 0.013 // (mm) Distance from real junction edge
-  #define JD_HANDLE_SMALL_SEGMENTS    // Use curvature estimation instead of just the junction angle
-                                      // for small segments (< 1mm) with large junction angles (> 135°).
+  #define JUNCTION_DEVIATION_MM 0.013 // (mm) Abstand von der realen Anschlusskante
+  #define JD_HANDLE_SMALL_SEGMENTS    // Verwenden Sie die Krümmungsabschätzung anstelle nur des Verbindungswinkels
+                                      // für kleine Segmente (< 1mm) mit großen Verbindungswinkeln (> 135°).
 #endif
 
 /**
- * S-Curve Acceleration
+ * S-Kurven Beschleunigung
  *
- * This option eliminates vibration during printing by fitting a Bézier
- * curve to move acceleration, producing much smoother direction changes.
+ * Diese Option eliminiert Vibrationen während des Drucks durch Anpassen einer Bézier-Kurve
+ * die an die Bewegungsbeschleunigung angepasst wird, was zu wesentlich sanfteren Richtungsänderungen führt.
  *
  * See https://github.com/synthetos/TinyG/wiki/Jerk-Controlled-Motion-Explained
  */
@@ -846,24 +847,24 @@
 //
 
 /**
- * Enable this option for a probe connected to the Z-MIN pin.
- * The probe replaces the Z-MIN endstop and is used for Z homing.
- * (Automatically enables USE_PROBE_FOR_Z_HOMING.)
+ * Aktivieren Sie diese Option für einen Messtaster, der an den Z-MIN-Pin angeschlossen ist.
+ * Der Messtaster ersetzt den Z-MIN-Endanschlag und wird für die Z-Referenzierung verwendet.
+ * (aktiviert automatisch USE_PROBE_FOR_Z_HOMING.)
  */
 #define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
 
-// Force the use of the probe for Z-axis homing
+// Erzwingen Sie die Verwendung des Messtasters für die Referenzfahrt der Z-Achse
 //#define USE_PROBE_FOR_Z_HOMING
 
 /**
  * Z_MIN_PROBE_PIN
  *
- * Define this pin if the probe is not connected to Z_MIN_PIN.
- * If not defined the default pin for the selected MOTHERBOARD
- * will be used. Most of the time the default is what you want.
+ * Definieren Sie diesen Pin, wenn der Tastkopf nicht an Z_MIN_PIN angeschlossen ist.
+ * Wenn nicht definiert, wird der Standard-Pin für das ausgewählte MOTHERBOARD
+ * verwendet. In den meisten Fällen ist die Vorgabe das, was Sie wollen.
  *
- *  - The simplest option is to use a free endstop connector.
- *  - Use 5V for powered (usually inductive) sensors.
+ * - Die einfachste Option ist die Verwendung eines freien Endstopp-Anschlusses.
+ * - Verwenden Sie 5V für gespeiste (meist induktive) Sensoren.
  *
  *  - RAMPS 1.3/1.4 boards may use the 5V, GND, and Aux4->D32 pin:
  *    - For simple switches connect...
