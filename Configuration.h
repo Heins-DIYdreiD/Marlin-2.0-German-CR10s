@@ -733,7 +733,7 @@
 //=============================================================================
 
 /**
- * Default Settings
+ * Standard Einstellungen
  *
  * Diese Einstellungen können mit dem Befehl M502 zurückgesetzt werden.
  * 
@@ -741,21 +741,22 @@
  */
 
 /**
- * Mit dieser Option kann jeder E-Stepper seine eigenen Faktoren für die
- * folgende Bewegungseinstellungen. Wenn weniger Faktoren angegeben werden als die
- * Gesamtzahl der Extruder, gilt der letzte Wert für den Rest.
+ * Wenn DISTINCT_E_FACTORS aktiviert ist, verwendet Marlin die Faktoren E0, E1, E2 usw. für E0, E1, E2 usw. Extruder.
+ * Wenn die Anzahl der Faktoren nicht gleich der Anzahl der Extruder ist, wird der letzte Faktor 
+ * für die verbleibenden Extruder verwendet. Wenn DISTINCT_E_FACTORS nicht aktiviert ist,
+ * dann verwendet Marlin den E0-Faktor für alle Extruder, unabhängig von der Anzahl der aufgelisteten Faktoren.
  */
 //#define DISTINCT_E_FACTORS
 
 /**
- * Standard-Achsschritte pro Einheit (steps/mm)
+ * Standardmässigen-Achsschritte pro Einheit (steps/mm)
  * Übertrage mit M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
 #define DEFAULT_AXIS_STEPS_PER_UNIT   { 320, 320, 1600, 95 }
 
 /**
- * Standard Maximale Vorschubgeschwindigkeit (mm/s)
+ * Standardmässige Maximale Vorschubgeschwindigkeit (mm/s)
  * Übertrage mit M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
@@ -767,7 +768,7 @@
 #endif
 
 /**
- * Die Standard maximale Beschleunigung (Änderung/s) Änderung = mm/s
+ * Die Standardmässige maximale Beschleunigung (Änderung/s) Änderung = mm/s
  * (Maximale Startgeschwindigkeit für beschleunigte Bewegungen)
  * Übertrage mit M201
  *                                      X, Y, Z, E0 [, E1[, E2...]]
@@ -780,19 +781,19 @@
 #endif
 
 /**
- * Standard-Beschleunigung (Eintrag/s) Eintrag = mm/s
+ * Standardmässige-Beschleunigung (Eintrag/s) Eintrag = mm/s
  * Übertrage M204
  *
  *   M204 P    Beschleunigung
  *   M204 R    Rückzugbeschleunigung
  *   M204 T    Wegbeschleunigung
  */
-#define DEFAULT_ACCELERATION           575    // X, Y, Z und E Drucker Beschleunigung Allgemein
+#define DEFAULT_ACCELERATION           575    // X, Y, Z und E Druckerbeschleunigung Allgemein
 #define DEFAULT_RETRACT_ACCELERATION  1000    // E Extruder Rückzugbeschleunigung
 #define DEFAULT_TRAVEL_ACCELERATION   1000    // X, Y, Z Wegbeschleunigung (nicht beim Druck)
 
 /**
- * (Jerk) Standard-Reissgrenzen (mm/s)
+ * (Jerk) Standard-Reissgrenzen -Ruckgrenzen (mm/s)
  * Übertrage mit M205 X Y Z E
  *
  * "Jerk" (reissen oder rucken) gibt die minimale Geschwindigkeitsänderung an, die eine Beschleunigung erfordert.
@@ -813,7 +814,7 @@
   #endif
 #endif
 
-#define DEFAULT_EJERK    5.0  // Kann von Linear Advance, Configuration_adv.h ab Zeile 1639 verwendet werden
+#define DEFAULT_EJERK    5.0  // Kann von Linear Advance, Configuration_adv.h ab Zeile 1639, verwendet werden
 
 /**
  * Abweichungsfaktor
@@ -839,7 +840,7 @@
 //#define S_CURVE_ACCELERATION
 
 //===========================================================================
-//============================= Z Probe Options =============================
+//============================= Z Messtaster Optionen =======================
 //===========================================================================
 
 //
@@ -864,175 +865,177 @@
  * verwendet. In den meisten Fällen ist die Vorgabe das, was Sie wollen.
  *
  * - Die einfachste Option ist die Verwendung eines freien Endstopp-Anschlusses.
- * - Verwenden Sie 5V für gespeiste (meist induktive) Sensoren.
+ * - Verwenden Sie 5V für gespeiste (meist induktive) Messtaster.
  *
  *  - RAMPS 1.3/1.4 boards may use the 5V, GND, and Aux4->D32 pin:
  *    - For simple switches connect...
  *      - normally-closed switches to GND and D32.
  *      - normally-open switches to 5V and D32.
  */
-//#define Z_MIN_PROBE_PIN 32 // Pin 32 is the RAMPS default
+//#define Z_MIN_PROBE_PIN 32 // Pin 32 ist RAMPS Standard
 
 /**
- * Probe Type
+ * Messtaster Type
  *
- * Allen Key Probes, Servo Probes, Z-Sled Probes, FIX_MOUNTED_PROBE, etc.
- * Activate one of these to use Auto Bed Leveling below.
+ * Inbus-Taster, Servo-Taster, Z-Schlitten-Taster, FIX_MOUNTED_PROBE, etc.
+ * Aktivieren Sie einen dieser Typen, um die automatische Bettnivellierung unten zu verwenden.
  */
 
 /**
- * The "Manual Probe" provides a means to do "Auto" Bed Leveling without a probe.
- * Use G29 repeatedly, adjusting the Z height at each point with movement commands
- * or (with LCD_BED_LEVELING) the LCD controller.
+ * Der "Manuelle Messtaster" bietet eine Möglichkeit, die "Auto"-Bettnivellierung ohne Taster durchzuführen.
+ * Verwenden Sie G29 wiederholt und stellen Sie die Z-Höhe an jedem Punkt mit Fahrbefehlen ein
+ * oder (mit LCD_BED_LEVELING) über das LCD-Display.
  */
 //#define PROBE_MANUALLY
 //#define MANUAL_PROBE_START_Z 0.2
 
 /**
- * A Fix-Mounted Probe either doesn't deploy or needs manual deployment.
- *   (e.g., an inductive probe or a nozzle-based probe-switch.)
+ * Eine fest montierter Messtaster wird entweder nicht ausgelöst oder muss manuell ausgelöst werden.
+ * (z. B. eine induktiver Messtaster oder ein düsenbasierter Sondenschalter).
  */
 //#define FIX_MOUNTED_PROBE
 
 /**
- * Use the nozzle as the probe, as with a conductive
- * nozzle system or a piezo-electric smart effector.
+ * Verwenden Sie die Düse als Taster, wie bei einem konduktiven
+ * Düsensystem oder einem piezoelektrischen Smart-Effektor.
  */
 //#define NOZZLE_AS_PROBE
 
 /**
- * Z Servo Probe, such as an endstop switch on a rotating arm.
+ * Z Servo Messtaster, wie z. B. ein Endlagenschalter an einem rotierenden Arm.
  */
-//#define Z_PROBE_SERVO_NR 0       // Defaults to SERVO 0 connector.
-//#define Z_SERVO_ANGLES { 70, 0 } // Z Servo Deploy and Stow angles
+//#define Z_PROBE_SERVO_NR 0       // Standardmäßig wird der Anschluss SERVO 0 verwendet.
+//#define Z_SERVO_ANGLES { 70, 0 } // Z Servo Ausfahr- und Abstellwinkel
 
 /**
- * The BLTouch probe uses a Hall effect sensor and emulates a servo.
+ * Der BLTouch-Taster verwendet einen Hall-Effekt-Sensor und emuliert einen Servo.
  */
 //#define BLTOUCH
 
 /**
- * Pressure sensor with a BLTouch-like interface
+ * Drucksensor mit einer BLTouch-ähnlichen Schnittstelle
  */
 //#define CREALITY_TOUCH
 
 /**
- * Touch-MI Probe by hotends.fr
+ * Touch-MI Messtaster von hotends.fr
  *
- * This probe is deployed and activated by moving the X-axis to a magnet at the edge of the bed.
- * By default, the magnet is assumed to be on the left and activated by a home. If the magnet is
- * on the right, enable and set TOUCH_MI_DEPLOY_XPOS to the deploy position.
+ * Dieser Messtaster wird eingesetzt und aktiviert, indem die X-Achse zu einem Magneten am Rand des Bettes bewegt wird.
+ * Standardmäßig wird angenommen, dass sich der Magnet auf der linken Seite befindet und durch eine Referenzfahrt aktiviert wird. Wenn sich der Magnet
+ * auf der rechten Seite befindet, aktivieren und setzen Sie TOUCH_MI_DEPLOY_XPOS auf die Ausfahrposition.
  *
- * Also requires: BABYSTEPPING, BABYSTEP_ZPROBE_OFFSET, Z_SAFE_HOMING,
- *                and a minimum Z_HOMING_HEIGHT of 10.
+ * Benötigt auch: BABYSTEPPING, BABYSTEP_ZPROBE_OFFSET, Z_SAFE_HOMING,
+ * und eine minimale Z_HOMING_HEIGHT von 10.
  */
 //#define TOUCH_MI_PROBE
 #if ENABLED(TOUCH_MI_PROBE)
-  #define TOUCH_MI_RETRACT_Z 0.5                  // Height at which the probe retracts
-  //#define TOUCH_MI_DEPLOY_XPOS (X_MAX_BED + 2)  // For a magnet on the right side of the bed
-  //#define TOUCH_MI_MANUAL_DEPLOY                // For manual deploy (LCD menu)
+  #define TOUCH_MI_RETRACT_Z 0.5                  // Höhe, bei der der Taster einfährt
+  //#define TOUCH_MI_DEPLOY_XPOS (X_MAX_BED + 2)  // Für einen Magneten auf der rechten Seite des Bettes
+  //#define TOUCH_MI_MANUAL_DEPLOY                // Für manuelles Ausfahren (LCD-Menü)
 #endif
 
-// A probe that is deployed and stowed with a solenoid pin (SOL1_PIN)
+// Ein Messtaster, der mit einem Solenoid-Pin (SOL1_PIN) ausgefahren und eingerastet wird
 //#define SOLENOID_PROBE
 
-// A sled-mounted probe like those designed by Charles Bell.
+// Eine schlittenmontierter Messtaster, wie er von Charles Bell entworfen wurde.
 //#define Z_PROBE_SLED
-//#define SLED_DOCKING_OFFSET 5  // The extra distance the X axis must travel to pickup the sled. 0 should be fine but you can push it further if you'd like.
+//#define SLED_DOCKING_OFFSET 5 // Der zusätzliche Weg, den die X-Achse zurücklegen muss, um den Schlitten abzuholen.
+                                // 0 sollte in Ordnung sein, aber Sie können den Wert noch weiter erhöhen, wenn Sie möchten.
 
-// A probe deployed by moving the x-axis, such as the Wilson II's rack-and-pinion probe designed by Marty Rice.
+// Ein Messtaster, der durch Bewegen der X-Achse ausgelöst wird, wie z. B. der Zahnstangenmesstaster des Wilson II, der von Marty Rice entwickelt wurde.
 //#define RACK_AND_PINION_PROBE
 #if ENABLED(RACK_AND_PINION_PROBE)
   #define Z_PROBE_DEPLOY_X  X_MIN_POS
   #define Z_PROBE_RETRACT_X X_MAX_POS
 #endif
 
-// Duet Smart Effector (for delta printers) - https://bit.ly/2ul5U7J
-// When the pin is defined you can use M672 to set/reset the probe sensivity.
+// Duet Smart Effector (für Deltadrucker) - https://bit.ly/2ul5U7J
+// Wenn der Pin definiert ist, können Sie M672 verwenden, um die Sondenempfindlichkeit zu setzen/zurückzusetzen.
 //#define DUET_SMART_EFFECTOR
 #if ENABLED(DUET_SMART_EFFECTOR)
-  #define SMART_EFFECTOR_MOD_PIN  -1  // Connect a GPIO pin to the Smart Effector MOD pin
+  #define SMART_EFFECTOR_MOD_PIN  -1  // Verbinden Sie einen GPIO-Pin mit dem MOD-Pin des Smart-Effektors
 #endif
 
 /**
- * Use StallGuard2 to probe the bed with the nozzle.
- * Requires stallGuard-capable Trinamic stepper drivers.
- * CAUTION: This can damage machines with Z lead screws.
- *          Take extreme care when setting up this feature.
+ * Verwenden Sie StallGuard2, um das Bett mit dem Messtaster anzutasten.
+ * Erfordert stallGuard-fähige Trinamic-Schrittmachertreiber.
+ * 
+ * ACHTUNG: Dies kann Maschinen mit Z-Leitspindeln beschädigen.
+ * Gehen Sie beim Einrichten dieser Funktion äußerst vorsichtig vor.
  */
 //#define SENSORLESS_PROBING
 
 //
-// For Z_PROBE_ALLEN_KEY see the Delta example configurations.
+// für Z_PROBE_ALLEN_KEY siehe die Delta-Beispielkonfigurationen.
 //
 
 /**
- * Nozzle-to-Probe offsets { X, Y, Z }
+ * Nozzle-zu-Messtaster Versatz { X, Y, Z }
  *
- * - Use a caliper or ruler to measure the distance from the tip of
- *   the Nozzle to the center-point of the Probe in the X and Y axes.
- * - For the Z offset use your best known value and adjust at runtime.
- * - Probe Offsets can be tuned at runtime with 'M851', LCD menus, babystepping, etc.
+ * - Messen Sie mit einem Messschieber oder einem Lineal den Abstand vom Mittelpunkt der Düse (Nozzlespitze), 
+ *   zum Mittelpunkt des Messtasters in der X- und Y-Achse.
+ * - Verwenden Sie für den Z-Offset Ihren besten gemessenen, oder gemittelten Wert und passen Sie ihn während der Laufzeit an.
+ * - Tastkopf-Offsets können zur Laufzeit mit 'M851', LCD-Menüs, Babystepping, etc. eingestellt werden.
  *
- * Assuming the typical work area orientation:
- *  - Probe to RIGHT of the Nozzle has a Positive X offset
- *  - Probe to LEFT  of the Nozzle has a Negative X offset
- *  - Probe in BACK  of the Nozzle has a Positive Y offset
- *  - Probe in FRONT of the Nozzle has a Negative Y offset
+ * Angenommen, der Arbeitsbereich ist typisch ausgerichtet:
+ * - Messtaster rechts von der Düse hat einen positiven X-Versatz
+ * - Messtaster links  von der Düse hat einen negativen X-Offset
+ * - Messtaster hinter     der Düse hat einen positiven Y-Versatz
+ * - Messtaster vorne   an der Düse hat einen negativen Y-Versatz
  *
- * Some examples:
- *   #define NOZZLE_TO_PROBE_OFFSET { 10, 10, -1 }   // Example "1"
- *   #define NOZZLE_TO_PROBE_OFFSET {-10,  5, -1 }   // Example "2"
- *   #define NOZZLE_TO_PROBE_OFFSET {  5, -5, -1 }   // Example "3"
- *   #define NOZZLE_TO_PROBE_OFFSET {-15,-10, -1 }   // Example "4"
+ * Einige Beispiele:
+ *   #define NOZZLE_TO_PROBE_OFFSET { 10, 10, -1 }   // Beispiel "1"
+ *   #define NOZZLE_TO_PROBE_OFFSET {-10,  5, -1 }   // Beispiel "2"
+ *   #define NOZZLE_TO_PROBE_OFFSET {  5, -5, -1 }   // Beispiel "3"
+ *   #define NOZZLE_TO_PROBE_OFFSET {-15,-10, -1 }   // Beispiel "4"
  *
  *     +-- BACK ---+
  *     |    [+]    |
- *   L |        1  | R <-- Example "1" (right+,  back+)
- *   E |  2        | I <-- Example "2" ( left-,  back+)
+ *   L |        1  | R <-- Beispiel "1" (right+,  back+)
+ *   E |  2        | I <-- Beispiel "2" ( left-,  back+)
  *   F |[-]  N  [+]| G <-- Nozzle
- *   T |       3   | H <-- Example "3" (right+, front-)
- *     | 4         | T <-- Example "4" ( left-, front-)
+ *   T |       3   | H <-- Beispiel "3" (right+, front-)
+ *     | 4         | T <-- Beispiel "4" ( left-, front-)
  *     |    [-]    |
  *     O-- FRONT --+
  */
 #define NOZZLE_TO_PROBE_OFFSET { 10, 10, 0 }
 
-// Most probes should stay away from the edges of the bed, but
-// with NOZZLE_AS_PROBE this can be negative for a wider probing area.
+// Die meisten Messtaster sollten sich von den Kanten des Bettes fernhalten, aber
+// mit NOZZLE_AS_PROBE kann dies für einen größeren Antastbereich aber negativ sein.
 #define PROBING_MARGIN 10
 
-// X and Y axis travel speed (mm/min) between probes
+// X und Y Achsen Verfahrgeschwindigkeit zwischen den Messungen (mm/min).
 #define XY_PROBE_SPEED (133*60)
 
-// Feedrate (mm/min) for the first approach when double-probing (MULTIPLE_PROBING == 2)
+// Vorschubgeschwindigkeit (mm/min) für die erste Annäherung bei der Doppelmessung (MULTIPLE_PROBING == 2)
 #define Z_PROBE_SPEED_FAST HOMING_FEEDRATE_Z
 
-// Feedrate (mm/min) for the "accurate" probe of each point
+// Vorschubgeschwindigkeit (mm/min) für die "genaue" Messung jedes Punktes.
 #define Z_PROBE_SPEED_SLOW (Z_PROBE_SPEED_FAST / 2)
 
 /**
- * Multiple Probing
+ * Mehrfaches Antasten
  *
- * You may get improved results by probing 2 or more times.
- * With EXTRA_PROBING the more atypical reading(s) will be disregarded.
+ * Sie erhalten möglicherweise bessere Ergebnisse, wenn Sie die Messung 2 oder mehr Mal durchführen.
+ * Mit EXTRA_PROBING werden die eher untypischen / fehlerhaften Messwerte nicht berücksichtigt.
  *
- * A total of 2 does fast/slow probes with a weighted average.
- * A total of 3 or more adds more slow probes, taking the average.
+ * Eine Gesamtzahl von 2 ergibt schnelle/langsame Messungen mit einem gewichteten Durchschnitt.
+ * Bei einer Gesamtzahl von 3 oder mehr werden mehr langsame Messungen hinzugefügt, wobei der Durchschnitt genommen wird.
  */
 //#define MULTIPLE_PROBING 2
 //#define EXTRA_PROBING    1
 
 /**
- * Z probes require clearance when deploying, stowing, and moving between
- * probe points to avoid hitting the bed and other hardware.
- * Servo-mounted probes require extra space for the arm to rotate.
- * Inductive probes need space to keep from triggering early.
+ * Z-Messtaster benötigen Freiraum beim Einsetzen, Verstauen und Bewegen zwischen
+ * Tastköpfe benötigen Freiraum, um nicht gegen das Bett oder andere Hardware zu stoßen.
+ * Servomontierte Taster benötigen zusätzlichen Platz für die Drehung des Arms.
+ * Induktive Tastköpfe benötigen Platz, um ein vorzeitiges Auslösen zu verhindern.
  *
- * Use these settings to specify the distance (mm) to raise the probe (or
- * lower the bed). The values set here apply over and above any (negative)
- * probe Z Offset set with NOZZLE_TO_PROBE_OFFSET, M851, or the LCD.
- * Only integer values >= 1 are valid here.
+ * Verwenden Sie diese Einstellungen, um den Abstand (mm) festzulegen, um den Messtaster anzuheben (oder
+ * das Bett abzusenken). Die hier eingestellten Werte gelten zusätzlich zu einem eventuellen (negativen)
+ * Taster-Z-Offset, der mit NOZZLE_TO_PROBE_OFFSET, M851 oder dem LCD eingestellt wurde.
+ * Nur ganzzahlige Werte >= 1 sind hier gültig.
  *
  * Example: `M851 Z-5` with a CLEARANCE of 4  =>  9mm from bed to nozzle.
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
